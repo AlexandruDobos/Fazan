@@ -3,11 +3,11 @@ import java.awt.*;
 
 public class PaginaPrincipalaGUI extends JFrame{
     private JPanel mainPanel;
-    private JTextField numeUtilizator;
     private JButton start;
     private JLabel name;
     private JLabel bunVenit;
     private JLabel copyRight;
+    private JTextField numeUtilizator;
 
     public PaginaPrincipalaGUI(String appName){
         super(appName);

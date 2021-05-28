@@ -25,28 +25,6 @@
           <text value="Introdu numele:"/>
         </properties>
       </component>
-      <component id="c135e" class="javax.swing.JTextField" binding="numeUtilizator">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false">
-            <preferred-size width="300" height="75"/>
-          </grid>
-        </constraints>
-        <properties>
-          <dragEnabled value="true"/>
-          <font name="Comic Sans MS" size="20" style="2"/>
-          <foreground color="-1445389"/>
-          <inheritsPopupMenu value="false"/>
-          <margin top="2" left="6" bottom="2" right="6"/>
-          <name value=""/>
-          <opaque value="false"/>
-          <selectionColor color="-1445389"/>
-          <selectionStart value="0"/>
-          <text value=""/>
-          <toolTipText value=""/>
-          <verifyInputWhenFocusTarget value="true"/>
-          <visible value="true"/>
-        </properties>
-      </component>
       <component id="ffd1" class="javax.swing.JButton" binding="start">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
@@ -97,6 +75,28 @@
           <horizontalTextPosition value="0"/>
           <opaque value="false"/>
           <text value="Conceput de: Murariu Gabriela / Alex Dobos"/>
+          <visible value="true"/>
+        </properties>
+      </component>
+      <component id="c135e" class="javax.swing.JTextField" binding="numeUtilizator">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="300" height="75"/>
+          </grid>
+        </constraints>
+        <properties>
+          <dragEnabled value="true"/>
+          <font name="Comic Sans MS" size="20" style="2"/>
+          <foreground color="-1445389"/>
+          <inheritsPopupMenu value="false"/>
+          <margin top="2" left="6" bottom="2" right="6"/>
+          <name value=""/>
+          <opaque value="false"/>
+          <selectionColor color="-1445389"/>
+          <selectionStart value="0"/>
+          <text value=""/>
+          <toolTipText value=""/>
+          <verifyInputWhenFocusTarget value="true"/>
           <visible value="true"/>
         </properties>
       </component>
