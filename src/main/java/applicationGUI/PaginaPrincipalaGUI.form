@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="PaginaPrincipalaGUI">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="applicationGUI.PaginaPrincipalaGUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="100" left="0" bottom="100" right="0"/>
     <constraints>
@@ -50,7 +50,7 @@
           <visible value="true"/>
         </properties>
       </component>
-      <component id="17243" class="javax.swing.JLabel" binding="bunVenit">
+      <component id="17243" class="javax.swing.JLabel" binding="welcome">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -78,7 +78,7 @@
           <visible value="true"/>
         </properties>
       </component>
-      <component id="c135e" class="javax.swing.JTextField" binding="numeUtilizator">
+      <component id="c135e" class="javax.swing.JTextField" binding="username">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="300" height="75"/>
