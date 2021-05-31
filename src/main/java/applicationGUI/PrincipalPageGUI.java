@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class PaginaPrincipalaGUI extends JFrame{
+public class PrincipalPageGUI extends JFrame{
     private JPanel mainPanel;
     private JButton start;
     private JLabel name;
@@ -12,7 +12,7 @@ public class PaginaPrincipalaGUI extends JFrame{
     private JLabel copyRight;
     private JTextField username;
 
-    public PaginaPrincipalaGUI(String appName){
+    public PrincipalPageGUI(String appName){
         super(appName);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
@@ -35,7 +35,7 @@ public class PaginaPrincipalaGUI extends JFrame{
     }
 
     public static void main(String[] args){
-        JFrame frame = new PaginaPrincipalaGUI("Fazan");
+        JFrame frame = new PrincipalPageGUI("Fazan");
         frame.setVisible(true);
     }
 }

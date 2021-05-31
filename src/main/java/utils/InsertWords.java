@@ -1,9 +1,11 @@
 package utils;
 
 import javax.xml.crypto.Data;
+import javax.xml.transform.Result;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class InsertWords {
@@ -16,16 +18,21 @@ public class InsertWords {
             while ((line = br.readLine()) != null) {
                 try {
                     Connection con = Database.getConnection();
-                    String query = "INSERT INTO words (word, first_two_letters) VALUES (?,?)";
-                    PreparedStatement posted = con.prepareStatement(query);
-                    posted.setString(1, line);
-                    if(line.length() >= 2) {
-                        posted.setString(2, line.substring(0, 2));
+                    String verifyQuery = "SELECT * from words WHERE word = ?";
+                    PreparedStatement statement = con.prepareStatement(verifyQuery);
+                    statement.setString(1, line);
+                    ResultSet resultSet = statement.executeQuery();
+                    if(!resultSet.next()) {
+                        String query = "INSERT INTO words (word, first_two_letters) VALUES (?,?)";
+                        PreparedStatement posted = con.prepareStatement(query);
+                        posted.setString(1, line);
+                        if (line.length() >= 2) {
+                            posted.setString(2, line.substring(0, 2));
+                        } else {
+                            posted.setString(2, "  ");
+                        }
+                        posted.execute();
                     }
-                    else{
-                        posted.setString(2, "  ");
-                    }
-                    posted.execute();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -36,10 +43,6 @@ public class InsertWords {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        InsertWords insertWords = new InsertWords();
     }
 }
 
