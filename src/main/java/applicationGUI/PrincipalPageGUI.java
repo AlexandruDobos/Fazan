@@ -65,10 +65,4 @@ public class PrincipalPageGUI extends JFrame {
             frame.setVisible(true);
         }
     }
-
-
-    public static void main(String[] args) {
-        JFrame frame = new PrincipalPageGUI("Fazan");
-        frame.setVisible(true);
-    }
 }

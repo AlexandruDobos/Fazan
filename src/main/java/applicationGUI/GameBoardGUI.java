@@ -42,7 +42,6 @@ public class GameBoardGUI extends JFrame {
     private JLabel computerZ;
     private JLabel computerSecondA;
     private JLabel computerN;
-    private boolean isFinished = false;
     private Player user;
     private Player computer;
     private List<String> usedWords;
@@ -148,7 +147,7 @@ public class GameBoardGUI extends JFrame {
             Connection con = Database.getConnection();
             String verifyQuery = "";
             if (this.firstMove) {
-
+                /* Daca este prima mutare selectam un cuvant din baza de date care are cel putin un alt cuvant care incepe cu ultimele doua litere ale lui */
                 verifyQuery = "SELECT * FROM (SELECT word FROM words w WHERE first_two_letters = UPPER(?) AND " +
                         "((SELECT COUNT(first_two_letters) FROM words WHERE first_two_letters =  " +
                         " SUBSTRING(w.word FROM char_length(w.word) - 1 FOR 2)) > 0)) sel ORDER BY random() limit 1";
@@ -171,6 +170,7 @@ public class GameBoardGUI extends JFrame {
                 }
             } else {
                 if (difficulty.equals("medium")) {
+                    /* Selectarea unui cuvant oarecare din baza de date ce incepe cu ultimele doua litere ale cuvantului jucatorului */
                     verifyQuery = "SELECT word from words WHERE first_two_letters = UPPER(?) order by random() limit 1";
 
                     PreparedStatement statement = con.prepareStatement(verifyQuery);
@@ -191,6 +191,7 @@ public class GameBoardGUI extends JFrame {
                         }
                     }
                 } else if (difficulty.equals("hard")) {
+                    /* Selectarea unui cuvant din baza de date care sa-i ofere jucatorului cat mai putine variante de raspuns, inclusiv nicio varianta de raspuns  */
                     verifyQuery = "SELECT * FROM (SELECT word FROM words w WHERE first_two_letters = UPPER(?) AND " +
                             "((SELECT COUNT(first_two_letters) FROM words WHERE first_two_letters = " +
                             " SUBSTRING(w.word FROM char_length(w.word) - 1 for 2)) = " +
@@ -209,6 +210,7 @@ public class GameBoardGUI extends JFrame {
                             computerMove();
                         }
                     } else {
+                        /* Daca nu exista nicio varianta de raspuns cu numarul minim de variante de raspuns pentru jucator alegem un cuvant random ce va incepe cu ultimele doua litere ale cuvantului jucatorului */
                         verifyQuery = "SELECT word from words WHERE first_two_letters = UPPER(?) order by random() limit 1";
                         statement = con.prepareStatement(verifyQuery);
                         statement.setString(1, this.firstTwoLetters);
@@ -331,15 +333,6 @@ public class GameBoardGUI extends JFrame {
             }
 
         }
-
-        if (isFinished) {
-            this.isFinished = false;
-            this.usedWords = new ArrayList<>();
-            this.setVisible(false);
-            JFrame frame = new FinalPageGUI("Final Page", this.champion);
-            frame.setVisible(true);
-        }
-
     }
 
     public String alphabet() {
