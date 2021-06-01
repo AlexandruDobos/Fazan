@@ -14,7 +14,6 @@ public class Database {
         try {
             conn = DriverManager.getConnection(url, username, password);
             conn.setAutoCommit(true);
-            System.out.println("Connected");
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

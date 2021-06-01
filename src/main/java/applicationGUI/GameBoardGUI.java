@@ -110,7 +110,7 @@ public class GameBoardGUI extends JFrame {
             this.userN.setForeground(Color.red);
             this.setVisible(false);
             this.champion = computer.getUsername();
-            JFrame frame = new FinalPageGUI("Fazan - Winner", champion);
+            JFrame frame = new FinalPageGUI("Fazan - Winner", this.champion);
             frame.setVisible(true);
             this.firstWordAccepted = true;
         }
@@ -133,7 +133,7 @@ public class GameBoardGUI extends JFrame {
             this.computerN.setForeground(Color.red);
             this.setVisible(false);
             this.champion = user.getUsername();
-            JFrame frame = new FinalPageGUI("Fazan - Winner", champion);
+            JFrame frame = new FinalPageGUI("Fazan - Winner", this.champion);
             frame.setVisible(true);
             this.firstWordAccepted = false;
         }
@@ -147,13 +147,13 @@ public class GameBoardGUI extends JFrame {
         try {
             Connection con = Database.getConnection();
             String verifyQuery = "";
-            if (firstMove) {
+            if (this.firstMove) {
 
                 verifyQuery = "SELECT * FROM (SELECT word FROM words w WHERE first_two_letters = UPPER(?) AND " +
                         "((SELECT COUNT(first_two_letters) FROM words WHERE first_two_letters =  " +
                         " SUBSTRING(w.word FROM char_length(w.word) - 1 FOR 2)) > 0)) sel ORDER BY random() limit 1";
                 PreparedStatement statement = con.prepareStatement(verifyQuery);
-                statement.setString(1, firstTwoLetters);
+                statement.setString(1, this.firstTwoLetters);
                 ResultSet resultSet = statement.executeQuery();
 
                 if (resultSet.next()) {
@@ -162,30 +162,20 @@ public class GameBoardGUI extends JFrame {
                         computerMove();
                     }
                 } else {
-                    if (!firstMove) {
+                    if (!this.firstMove) {
                         decrementComputerChances();
                     } else {
                         this.entryWord.setText("");
-                        this.indications.setText("N-ai voie sa inchizi din prima! Cuvantul trebuie sa inceapa cu: " + firstLetter);
+                        this.indications.setText("N-ai voie sa inchizi din prima! Cuvantul trebuie sa inceapa cu: " + this.firstLetter);
                     }
                 }
             } else {
                 if (difficulty.equals("medium")) {
                     verifyQuery = "SELECT word from words WHERE first_two_letters = UPPER(?) order by random() limit 1";
-                    String numberOfOptions = "SELECT count(*) from (SELECT word from words WHERE first_two_letters = UPPER(?)) cnt";
-                    PreparedStatement statement1 = con.prepareStatement(numberOfOptions);
-                    statement1.setString(1, firstTwoLetters);
-                    ResultSet resultSet1 = statement1.executeQuery();
 
                     PreparedStatement statement = con.prepareStatement(verifyQuery);
-                    statement.setString(1, firstTwoLetters);
+                    statement.setString(1, this.firstTwoLetters);
                     ResultSet resultSet = statement.executeQuery();
-
-                    int size = 0;
-                    if (resultSet1.next()) {
-                        size = resultSet1.getInt(1);
-                    }
-
 
                     if (resultSet.next()) {
                         response = resultSet.getString(1);
@@ -193,11 +183,11 @@ public class GameBoardGUI extends JFrame {
                             computerMove();
                         }
                     } else {
-                        if (!firstMove) {
+                        if (!this.firstMove) {
                             decrementComputerChances();
                         } else {
                             this.entryWord.setText("");
-                            this.indications.setText("N-ai voie sa inchizi din prima! Cuvantul trebuie sa inceapa cu: " + firstLetter);
+                            this.indications.setText("N-ai voie sa inchizi din prima! Cuvantul trebuie sa inceapa cu: " + this.firstLetter);
                         }
                     }
                 } else if (difficulty.equals("hard")) {
@@ -210,7 +200,7 @@ public class GameBoardGUI extends JFrame {
                             " (SELECT COUNT(first_two_letters) FROM words WHERE first_two_letters = SUBSTRING(w.word from char_length(w.word) - 1 for 2)) = 0) limit 10) sel2 order by random() limit 1";
 
                     PreparedStatement statement = con.prepareStatement(verifyQuery);
-                    statement.setString(1, firstTwoLetters);
+                    statement.setString(1, this.firstTwoLetters);
                     ResultSet resultSet = statement.executeQuery();
 
                     if (resultSet.next()) {
@@ -220,19 +210,9 @@ public class GameBoardGUI extends JFrame {
                         }
                     } else {
                         verifyQuery = "SELECT word from words WHERE first_two_letters = UPPER(?) order by random() limit 1";
-                        String numberOfOptions = "SELECT count(*) from (SELECT word from words WHERE first_two_letters = UPPER(?)) cnt";
-                        PreparedStatement statement1 = con.prepareStatement(numberOfOptions);
-                        statement1.setString(1, firstTwoLetters);
-                        ResultSet resultSet1 = statement1.executeQuery();
-
                         statement = con.prepareStatement(verifyQuery);
-                        statement.setString(1, firstTwoLetters);
+                        statement.setString(1, this.firstTwoLetters);
                         resultSet = statement.executeQuery();
-
-                        int size = 0;
-                        if (resultSet1.next()) {
-                            size = resultSet1.getInt(1);
-                        }
 
                         if (resultSet.next()) {
                             response = resultSet.getString(1);
@@ -241,11 +221,11 @@ public class GameBoardGUI extends JFrame {
                             }
                         } else {
 
-                            if (!firstMove) {
+                            if (!this.firstMove) {
                                 decrementComputerChances();
                             } else {
                                 this.entryWord.setText("");
-                                this.indications.setText("N-ai voie sa inchizi din prima! Cuvantul trebuie sa inceapa cu: " + firstLetter);
+                                this.indications.setText("N-ai voie sa inchizi din prima! Cuvantul trebuie sa inceapa cu: " + this.firstLetter);
                             }
                         }
                     }
@@ -279,7 +259,7 @@ public class GameBoardGUI extends JFrame {
         if (usedWords.contains(word.toUpperCase())) {
             return false;
         } else {
-            if (!firstMove) {
+            if (!this.firstMove) {
                 usedWords.add(word.toUpperCase());
             }
             return true;
@@ -289,67 +269,65 @@ public class GameBoardGUI extends JFrame {
     public void verifyResponse(ActionEvent event) {
         boolean wordExistsFunctionResponse = wordExists(this.entryWord.getText());
 
-        if ((!firstWordAccepted && this.entryWord.getText().length() >= 1 && this.entryWord.getText().substring(0, 1).equalsIgnoreCase(firstLetter)) || (firstWordAccepted && this.entryWord.getText().length() >= 2 && this.entryWord.getText().substring(0, 2).equalsIgnoreCase(firstTwoLetters))) {
+        if ((!this.firstWordAccepted && this.entryWord.getText().length() >= 1 && this.entryWord.getText().substring(0, 1).equalsIgnoreCase(this.firstLetter)) || (this.firstWordAccepted && this.entryWord.getText().length() >= 2 && this.entryWord.getText().substring(0, 2).equalsIgnoreCase(this.firstTwoLetters))) {
 
             if (wordExistsFunctionResponse) {
                 if (verifyUsedWord(this.entryWord.getText())) {
-                    int entryWordLength = entryWord.getText().length();
+                    int entryWordLength = this.entryWord.getText().length();
                     if (entryWordLength - 2 >= 0) {
-                        firstTwoLetters = this.entryWord.getText().substring(entryWordLength - 2, entryWordLength);
+                        this.firstTwoLetters = this.entryWord.getText().substring(entryWordLength - 2, entryWordLength);
                     }
 
-                    response = computerMove();
-                    if (response.equals("")) {
-                        if (!firstMove) {
+                    this.response = computerMove();
+                    if (this.response.equals("")) {
+                        if (!this.firstMove) {
                             playGame();
                         }
                     } else {
-                        if (firstMove) {
+                        if (this.firstMove) {
                             usedWords.add(entryWord.getText().toUpperCase());
-                            firstWordAccepted = true;
+                            this.firstWordAccepted = true;
                         }
-                        firstMove = false;
-                        lastTwoLetters = firstTwoLetters;
-                        int responseLength = response.length();
+                        this.firstMove = false;
+                        this.lastTwoLetters = this.firstTwoLetters;
+                        int responseLength = this.response.length();
                         if (responseLength >= 2) {
-                            firstTwoLetters = response.substring(responseLength - 2, responseLength);
+                            this.firstTwoLetters = this.response.substring(responseLength - 2, responseLength);
                         }
-                        this.indications.setText("Calculatorul a raspuns: " + response + ". Cuvantul tau trebuie sa inceapa cu: " + firstTwoLetters);
+                        this.indications.setText("Calculatorul a raspuns: " + this.response + ". Cuvantul tau trebuie sa inceapa cu: " + this.firstTwoLetters);
                         this.entryWord.setText("");
                     }
                 } else {
-                    if (!firstWordAccepted) {
+                    if (!this.firstWordAccepted) {
                         this.entryWord.setText("");
-                        this.indications.setText("Cuvant deja folosit. Cuvantul trebuie sa inceapa cu: " + firstLetter);
+                        this.indications.setText("Cuvant deja folosit. Cuvantul trebuie sa inceapa cu: " + this.firstLetter);
                     } else {
                         this.entryWord.setText("");
-                        this.indications.setText("Cuvant deja folosit. Calculatorul a raspuns: " + response + ". Cuvantul trebuie sa inceapa cu: " + firstTwoLetters);
+                        this.indications.setText("Cuvant deja folosit. Calculatorul a raspuns: " + this.response + ". Cuvantul trebuie sa inceapa cu: " + this.firstTwoLetters);
                     }
                 }
             } else {
 
                 if (this.firstWordAccepted) {
-                    //TODO afiseaza primele doua litere
                     if (this.entryWord.getText().length() >= 2) {
-                        this.indications.setText("Cuvant inexistent! Calculatorul a raspuns: " + response + " Trebuie sa inceapa cu: " + firstTwoLetters);
+                        this.indications.setText("Cuvant inexistent! Calculatorul a raspuns: " + this.response + " Trebuie sa inceapa cu: " + this.firstTwoLetters);
                         this.entryWord.setText("");
                     }
                 } else {
-                    //TODO afiseaza din nou prima litera
                     if (this.entryWord.getText().length() >= 1) {
-                        this.indications.setText("Cuvant inexistent! Trebuie sa inceapa cu: " + firstLetter);
+                        this.indications.setText("Cuvant inexistent! Trebuie sa inceapa cu: " + this.firstLetter);
                         this.entryWord.setText("");
                     }
                 }
             }
 
         } else {
-            if (!firstWordAccepted) {
+            if (!this.firstWordAccepted) {
                 this.entryWord.setText("");
-                this.indications.setText("Cuvantul trebuie sa inceapa cu: " + firstLetter);
+                this.indications.setText("Cuvantul trebuie sa inceapa cu: " + this.firstLetter);
             } else {
                 this.entryWord.setText("");
-                this.indications.setText("Calculatorul a raspuns: " + response + ". Cuvantul trebuie sa inceapa cu: " + firstTwoLetters);
+                this.indications.setText("Calculatorul a raspuns: " + this.response + ". Cuvantul trebuie sa inceapa cu: " + this.firstTwoLetters);
             }
 
         }
@@ -358,7 +336,7 @@ public class GameBoardGUI extends JFrame {
             this.isFinished = false;
             this.usedWords = new ArrayList<>();
             this.setVisible(false);
-            JFrame frame = new FinalPageGUI("Final Page", champion);
+            JFrame frame = new FinalPageGUI("Final Page", this.champion);
             frame.setVisible(true);
         }
 
@@ -371,17 +349,10 @@ public class GameBoardGUI extends JFrame {
     }
 
     public void playGame() {
-        firstLetter = alphabet();
-        firstMove = true;
+        this.firstLetter = alphabet();
+        this.firstMove = true;
         this.entryWord.setText("");
         this.firstWordAccepted = false;
-        this.indications.setText("Cuvantul va incepe cu litera: " + firstLetter);
-    }
-
-    @Override
-    public String toString() {
-        return "GameBoardGUI{" +
-                "usedWords=" + usedWords +
-                '}';
+        this.indications.setText("Cuvantul va incepe cu litera: " + this.firstLetter);
     }
 }
