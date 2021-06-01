@@ -1,7 +1,5 @@
 package utils;
 
-import javax.xml.crypto.Data;
-import javax.xml.transform.Result;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +20,7 @@ public class InsertWords {
                     PreparedStatement statement = con.prepareStatement(verifyQuery);
                     statement.setString(1, line);
                     ResultSet resultSet = statement.executeQuery();
-                    if(!resultSet.next()) {
+                    if (!resultSet.next()) {
                         String query = "INSERT INTO words (word, first_two_letters) VALUES (?,?)";
                         PreparedStatement posted = con.prepareStatement(query);
                         posted.setString(1, line);

@@ -305,16 +305,6 @@
               <text value="SEND"/>
             </properties>
           </component>
-          <component id="305f0" class="javax.swing.JButton" binding="stopButton">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-5934219"/>
-              <foreground color="-1445389"/>
-              <text value="STOP"/>
-            </properties>
-          </component>
           <component id="1a4d3" class="javax.swing.JButton" binding="skip">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
