@@ -43,15 +43,7 @@ public class PrincipalPageGUI extends JFrame {
     }
 
     public void startGame(ActionEvent event) {
-        if (username.getText().equals("")) {
-            JFrame frame = new SettingsGUI("Fazan - Settings", "Unknown Player");
-            this.setVisible(false);
-            frame.setVisible(true);
-        } else {
-            JFrame frame = new SettingsGUI("Fazan - Settings", username.getText());
-            this.setVisible(false);
-            frame.setVisible(true);
-        }
+        switchPages();
     }
 
     public void switchPages() {
